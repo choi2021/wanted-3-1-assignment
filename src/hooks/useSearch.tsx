@@ -1,3 +1,5 @@
+import { KeywordContext } from 'context/KeywordContext';
+import { SearchServiceContext } from 'context/SearchServiceContext';
 import { useContext } from 'react';
 import {
   SearchedDataDispatchContext,
@@ -14,4 +16,12 @@ export function useSearchedDataDispatch() {
   const dispatch = useContext(SearchedDataDispatchContext);
   if (!dispatch) throw new Error('Cannot find SampleProvider'); // 유효하지 않을땐 에러를 발생
   return dispatch;
+}
+
+export function useSearchService() {
+  return useContext(SearchServiceContext);
+}
+
+export function useKeyword() {
+  return useContext(KeywordContext);
 }

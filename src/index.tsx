@@ -5,10 +5,7 @@ import Search from 'pages/search/Search';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import GlobalStyle from 'styles/GlobalStyle';
-import {
-  SearchProvider,
-  SearchServiceContext,
-} from 'context/SearchServiceContext';
+import { SearchProvider } from 'context/SearchServiceContext';
 import Theme from './styles/theme';
 
 const router = createBrowserRouter([

@@ -7,8 +7,8 @@ export default class SearchServiceImpl implements SearchService {
 
   async getSearch(keyword: string) {
     try {
-      const response = await this.httpClient.get(`q=${keyword}`);
-      console.log(response);
+      const response = await this.httpClient.get(`?q=${keyword}`);
+      console.info('calling api');
       return response.data;
     } catch (error) {
       if (error instanceof AxiosError) {

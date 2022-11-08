@@ -53,6 +53,7 @@
     "react-hooks/exhaustive-deps": 0,
     "@typescript-eslint/no-explicit-any": 0,
     "no-plusplus": 0,
-    "prefer-const": 0
+    "prefer-const": 0,
+    "@typescript-eslint/no-unused-expressions": 0
   }
 }

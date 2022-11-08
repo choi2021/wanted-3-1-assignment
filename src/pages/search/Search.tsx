@@ -1,5 +1,6 @@
 import SearchForm from 'components/searchForm/SearchForm';
 import { SearchedDataProvider } from 'context/SearchedDataContext';
+import { KeywordProvider } from 'context/KeywordContext';
 import S from './styles';
 import SearchBoard from '../../components/searchBoard/SearchBoard';
 
@@ -11,8 +12,10 @@ const Search = () => {
         <br /> 온라인으로 참여하기
       </h1>
       <SearchedDataProvider>
-        <SearchForm />
-        <SearchBoard />
+        <KeywordProvider>
+          <SearchForm />
+          <SearchBoard />
+        </KeywordProvider>
       </SearchedDataProvider>
     </S.Wrapper>
   );

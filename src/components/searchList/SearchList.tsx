@@ -1,15 +1,11 @@
 import React from 'react';
 import { BsSearch } from 'react-icons/bs';
+import { SearchType } from 'types/types';
 import S from './styles';
-
-type SearchResult = {
-  sickCd: string;
-  sickNm: string;
-};
 
 interface SearchListProps {
   title: string;
-  list: SearchResult[];
+  list: SearchType[];
 }
 
 const SearchList = ({ title, list }: SearchListProps) => {
