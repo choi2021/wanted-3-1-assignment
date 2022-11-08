@@ -4,6 +4,7 @@ import './index.css';
 import Search from 'pages/search/Search';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
+import GlobalStyle from 'styles/GlobalStyle';
 import Theme from './styles/theme';
 
 const router = createBrowserRouter([
@@ -19,6 +20,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <ThemeProvider theme={Theme}>
+      <GlobalStyle />
       <RouterProvider router={router} />
     </ThemeProvider>
   </React.StrictMode>
