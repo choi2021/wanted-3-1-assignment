@@ -5,7 +5,8 @@ const Theme: DefaultTheme = {
   colors: {
     black: '#000000',
     grey: '#D9D9D9',
-    blue: '#0094FF',
+    bg: '#CAE9FF',
+    blue: '#007BE9',
   },
 };
 
