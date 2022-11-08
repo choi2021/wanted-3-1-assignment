@@ -1,13 +1,5 @@
 import SearchList from 'components/searchList/SearchList';
-import styled from 'styled-components';
-
-const Wrapper = styled.div`
-  width: 100%;
-  background-color: white;
-  border-radius: 1.5rem;
-  font-size: 0.8rem;
-  margin-top: 1rem;
-`;
+import S from './styles';
 
 const list = [
   {
@@ -63,9 +55,9 @@ const list = [
 
 const SearchBoard = () => {
   return (
-    <Wrapper>
+    <S.Wrapper>
       <SearchList title="추천 검색어" list={list} />
-    </Wrapper>
+    </S.Wrapper>
   );
 };
 
