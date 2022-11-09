@@ -1,3 +1,4 @@
+import { useDebounce } from 'hooks/useDebounce';
 import {
   useKeyword,
   useSearchedDataDispatch,
@@ -7,27 +8,32 @@ import React, { useState, useEffect } from 'react';
 import { BsSearch } from 'react-icons/bs';
 import S from './styles';
 
+const DELAY_TIME = 300;
+
 const SearchForm = () => {
-  const { keyword, setKeyword } = useKeyword();
+  const { keyword } = useKeyword();
+  const { tempKeyword, setTempKeyword } = useDebounce(DELAY_TIME);
   const dispatch = useSearchedDataDispatch();
   const searchService = useSearchService();
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.currentTarget;
-    setKeyword(value);
+    setTempKeyword(value);
   };
 
   useEffect(() => {
-    const getData = async () => {
+    const getResponse = async () => {
       const response = await searchService?.getSearch(keyword);
       dispatch({ type: 'SET_DATA', data: response });
     };
-    keyword && getData();
+    if (keyword) {
+      getResponse();
+    }
   }, [keyword]);
 
   return (
     <S.Form>
       <BsSearch />
-      <input type="text" value={keyword} onChange={handleChange} />
+      <input type="text" value={tempKeyword} onChange={handleChange} />
       <button type="button">검색</button>
     </S.Form>
   );
