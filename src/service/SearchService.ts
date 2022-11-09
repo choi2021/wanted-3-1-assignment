@@ -1,5 +1,5 @@
 import { AxiosError, AxiosInstance } from 'axios';
-import { SearchService } from 'types/types';
+import { SearchResponse, SearchService } from 'types/types';
 import HTTPError from '../network/httpError';
 
 export default class SearchServiceImpl implements SearchService {
@@ -7,9 +7,11 @@ export default class SearchServiceImpl implements SearchService {
 
   async getSearch(keyword: string) {
     try {
-      const response = await this.httpClient.get(`?q=${keyword}`);
+      const { data } = await this.httpClient.get<SearchResponse>(
+        `?q=${keyword}`
+      );
       console.info('calling api');
-      return response.data;
+      return await data;
     } catch (error) {
       if (error instanceof AxiosError) {
         const { response } = error;

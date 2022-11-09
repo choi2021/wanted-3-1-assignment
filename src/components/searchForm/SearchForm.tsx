@@ -7,6 +7,7 @@ import {
 import React, { useState, useEffect } from 'react';
 import { BsSearch } from 'react-icons/bs';
 import S from './styles';
+import HTTPError from '../../network/httpError';
 
 const DELAY_TIME = 300;
 
@@ -20,13 +21,33 @@ const SearchForm = () => {
     setTempKeyword(value);
   };
 
-  useEffect(() => {
-    const getResponse = async () => {
+  const getResponse = async () => {
+    dispatch({ type: 'SET_LOADING', isLoading: true });
+    try {
       const response = await searchService?.getSearch(keyword);
-      dispatch({ type: 'SET_DATA', data: response });
-    };
+      if (response) {
+        dispatch({ type: 'SET_DATA', data: response });
+        localStorage.setItem(keyword, JSON.stringify(response));
+      }
+    } catch (e) {
+      if (e instanceof HTTPError) {
+        dispatch({ type: 'SET_ERROR', error: e.errorMessage });
+      }
+      console.error(e);
+    } finally {
+      dispatch({ type: 'SET_LOADING', isLoading: false });
+    }
+  };
+
+  useEffect(() => {
+    const cachedItem = localStorage.getItem(keyword);
     if (keyword) {
-      getResponse();
+      if (cachedItem) {
+        const data = JSON.parse(cachedItem);
+        dispatch({ type: 'SET_DATA', data });
+      } else {
+        getResponse();
+      }
     }
   }, [keyword]);
 
