@@ -1,6 +1,7 @@
 import SearchItem from 'components/searchItem/SearchItem';
+import { useSearchParams } from 'react-router-dom';
 import S from './styles';
-import { useKeyword, useSearchedDataState } from '../../hooks/useSearch';
+import { useSearchedDataState } from '../../hooks/useSearch';
 
 interface SearchListProps {
   title: string;
@@ -8,8 +9,9 @@ interface SearchListProps {
 
 const SearchList = ({ title }: SearchListProps) => {
   const list = useSearchedDataState().data;
-  const { keyword } = useKeyword();
-  const noText = !keyword;
+  const [params] = useSearchParams();
+  const query = params.get('q') || '';
+  const noText = !query;
   return (
     <S.List>
       {noText && <h3>검색어 없음</h3>}

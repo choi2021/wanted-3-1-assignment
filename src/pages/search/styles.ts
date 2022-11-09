@@ -9,9 +9,10 @@ const Wrapper = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+
   text-align: center;
   h1 {
+    margin-top: 3rem;
     font-weight: bold;
     font-size: 1.5rem;
   }

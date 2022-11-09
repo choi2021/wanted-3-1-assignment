@@ -1,35 +1,33 @@
-import { useDebounce } from 'hooks/useDebounce';
-import {
-  useKeyword,
-  useSearchedDataDispatch,
-  useSearchService,
-} from 'hooks/useSearch';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { BsSearch } from 'react-icons/bs';
+import { useNavigate } from 'react-router';
+import { useSearchedDataDispatch } from 'hooks/useSearch';
+import { useApi } from 'hooks/useApi';
+import { useSearchParams } from 'react-router-dom';
 import S from './styles';
-import HTTPError from '../../network/httpError';
 
 type SearchFormProps = {
   setIsSearching: React.Dispatch<React.SetStateAction<boolean>>;
 };
-
-const DELAY_TIME = 300;
-
+const DELAY_TIME = 200;
 const SearchForm = ({ setIsSearching }: SearchFormProps) => {
-  const { keyword } = useKeyword();
-  const { tempKeyword, setTempKeyword } = useDebounce(DELAY_TIME);
+  const [params] = useSearchParams();
+  const query = params.get('q') || '';
   const dispatch = useSearchedDataDispatch();
-  const searchService = useSearchService();
+  const navigate = useNavigate();
+  const getResponse = useApi();
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.currentTarget;
-    setTempKeyword(value);
+    navigate(`/search?q=${value}`);
   };
 
+  // 함수 합치기
   const handleFocus = () => {
     setIsSearching(true);
   };
   const handleBlur = () => {
-    if (!keyword) {
+    if (!query) {
       setIsSearching(false);
     }
   };
@@ -37,42 +35,27 @@ const SearchForm = ({ setIsSearching }: SearchFormProps) => {
     e.preventDefault();
   };
 
-  const getResponse = async () => {
-    dispatch({ type: 'SET_LOADING', isLoading: true });
-    try {
-      const response = await searchService?.getSearch(keyword);
-      if (response) {
-        dispatch({ type: 'SET_DATA', data: response });
-        localStorage.setItem(keyword, JSON.stringify(response));
-      }
-    } catch (e) {
-      if (e instanceof HTTPError) {
-        dispatch({ type: 'SET_ERROR', error: e.errorMessage });
-      }
-      console.error(e);
-    } finally {
-      dispatch({ type: 'SET_LOADING', isLoading: false });
-    }
-  };
-
   useEffect(() => {
-    const cachedItem = localStorage.getItem(keyword);
-    if (keyword) {
+    const cachedItem = localStorage.getItem(query);
+    if (query) {
       if (cachedItem) {
         const data = JSON.parse(cachedItem);
         dispatch({ type: 'SET_DATA', data });
       } else {
-        getResponse();
+        const debounce = setTimeout(() => {
+          getResponse();
+        }, DELAY_TIME);
+        return () => clearTimeout(debounce);
       }
     }
-  }, [keyword]);
+  }, [query]);
 
   return (
     <S.Form onSubmit={handleSubmit}>
       <BsSearch />
       <input
         type="text"
-        value={tempKeyword}
+        value={query}
         onChange={handleChange}
         onFocus={handleFocus}
         onBlur={handleBlur}
