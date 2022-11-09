@@ -1,10 +1,12 @@
 import SearchForm from 'components/searchForm/SearchForm';
 import { SearchedDataProvider } from 'context/SearchedDataContext';
 import { KeywordProvider } from 'context/KeywordContext';
+import { useState } from 'react';
 import S from './styles';
 import SearchBoard from '../../components/searchBoard/SearchBoard';
 
 const Search = () => {
+  const [isSearching, setIsSearching] = useState(false);
   return (
     <S.Wrapper>
       <h1>
@@ -13,8 +15,8 @@ const Search = () => {
       </h1>
       <SearchedDataProvider>
         <KeywordProvider>
-          <SearchForm />
-          <SearchBoard />
+          <SearchForm setIsSearching={setIsSearching} />
+          {isSearching && <SearchBoard />}
         </KeywordProvider>
       </SearchedDataProvider>
     </S.Wrapper>

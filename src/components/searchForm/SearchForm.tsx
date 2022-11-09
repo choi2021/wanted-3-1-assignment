@@ -9,9 +9,13 @@ import { BsSearch } from 'react-icons/bs';
 import S from './styles';
 import HTTPError from '../../network/httpError';
 
+type SearchFormProps = {
+  setIsSearching: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
 const DELAY_TIME = 300;
 
-const SearchForm = () => {
+const SearchForm = ({ setIsSearching }: SearchFormProps) => {
   const { keyword } = useKeyword();
   const { tempKeyword, setTempKeyword } = useDebounce(DELAY_TIME);
   const dispatch = useSearchedDataDispatch();
@@ -19,6 +23,18 @@ const SearchForm = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.currentTarget;
     setTempKeyword(value);
+  };
+
+  const handleFocus = () => {
+    setIsSearching(true);
+  };
+  const handleBlur = () => {
+    if (!keyword) {
+      setIsSearching(false);
+    }
+  };
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
   };
 
   const getResponse = async () => {
@@ -52,9 +68,15 @@ const SearchForm = () => {
   }, [keyword]);
 
   return (
-    <S.Form>
+    <S.Form onSubmit={handleSubmit}>
       <BsSearch />
-      <input type="text" value={tempKeyword} onChange={handleChange} />
+      <input
+        type="text"
+        value={tempKeyword}
+        onChange={handleChange}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+      />
       <button type="button">검색</button>
     </S.Form>
   );
