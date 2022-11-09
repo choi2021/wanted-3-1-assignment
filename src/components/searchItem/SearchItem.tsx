@@ -21,12 +21,14 @@ const SearchItem = ({ text }: SearchItemProps) => {
   return (
     <Wrapper>
       <BsSearch />
-      {textArray.map((item, idx) => {
-        if (idx === KEYWORD_INDEX) {
-          return <b>{item}</b>;
-        }
-        return <span>{item}</span>;
-      })}
+      <span>
+        {textArray.map((item, idx) => {
+          if (idx === KEYWORD_INDEX) {
+            return <b key={item}>{item}</b>;
+          }
+          return item;
+        })}
+      </span>
     </Wrapper>
   );
 };
