@@ -1,5 +1,5 @@
+import SearchItem from 'components/searchItem/SearchItem';
 import React from 'react';
-import { BsSearch } from 'react-icons/bs';
 import { SearchType } from 'types/types';
 import S from './styles';
 
@@ -13,10 +13,7 @@ const SearchList = ({ title, list }: SearchListProps) => {
     <S.List>
       <h3>{title}</h3>
       {list.map((item) => (
-        <li>
-          <BsSearch />
-          <span>{item.sickNm}</span>
-        </li>
+        <SearchItem text={item.sickNm} />
       ))}
     </S.List>
   );
