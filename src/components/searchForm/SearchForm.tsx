@@ -6,10 +6,11 @@ import { useApi } from 'hooks/useApi';
 import { useSearchParams } from 'react-router-dom';
 import S from './styles';
 
+const DELAY_TIME = 200;
+
 type SearchFormProps = {
   setIsSearching: React.Dispatch<React.SetStateAction<boolean>>;
 };
-const DELAY_TIME = 200;
 const SearchForm = ({ setIsSearching }: SearchFormProps) => {
   const [params] = useSearchParams();
   const query = params.get('q') || '';
