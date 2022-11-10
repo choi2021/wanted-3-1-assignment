@@ -1,7 +1,7 @@
 import { BsSearch } from 'react-icons/bs';
 import { Link, useSearchParams } from 'react-router-dom';
 import { useRef, useEffect } from 'react';
-import splitByKeyword from '../../utils/splitByKeyword';
+import { splitByKeyword } from 'utils/splitByKeyword';
 import S from './styles';
 
 interface SearchItemProps {
@@ -47,7 +47,7 @@ const SearchItem = ({
       <S.Wrapper ref={itemRef} active={active} onMouseMove={handleMouseMove}>
         <BsSearch />
         <span>
-          {textArray.map((item, idx) => {
+          {textArray?.map((item, idx) => {
             if (idx === KEYWORD_INDEX) {
               return <b key={item}>{item}</b>;
             }
