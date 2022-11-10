@@ -13,7 +13,7 @@ interface SearchItemProps {
   setIsMovingMouse: React.Dispatch<React.SetStateAction<boolean>>;
   setCursor: React.Dispatch<React.SetStateAction<number>>;
 }
-const DELAY_TIME = 200;
+
 const KEYWORD_INDEX = 1;
 
 const SearchItem = ({
@@ -27,12 +27,9 @@ const SearchItem = ({
   const itemRef = useRef<HTMLLIElement>(null);
   const query = useQueryString();
   const textArray = splitByKeyword(query, text);
-  const handleMouseMove = () => {
+  const handleMouseEnter = () => {
     setIsMovingMouse(true);
-    const debounce = setTimeout(() => {
-      setCursor(index);
-    }, DELAY_TIME);
-    return () => clearTimeout(debounce);
+    setCursor(index);
   };
   useEffect(() => {
     if (active && !isMovingMouse) {
@@ -44,7 +41,7 @@ const SearchItem = ({
   });
   return (
     <Link to={`/search?q=${text}`}>
-      <S.Wrapper ref={itemRef} active={active} onMouseMove={handleMouseMove}>
+      <S.Wrapper ref={itemRef} active={active} onMouseEnter={handleMouseEnter}>
         <BsSearch />
         <span>
           {textArray?.map((item, idx) => {
