@@ -1,6 +1,7 @@
 import { useSearchedDataDispatch } from 'hooks/useSearch';
 import HTTPError from 'network/httpError';
 import { useSearchParams } from 'react-router-dom';
+import CacheService from 'service/CacheService';
 import { useSearchService } from './useSearch';
 
 const useApi = () => {
@@ -14,7 +15,7 @@ const useApi = () => {
       const response = await searchService?.getSearch(query);
       if (response) {
         dispatch({ type: 'SET_DATA', data: response });
-        sessionStorage.setItem(query, JSON.stringify(response));
+        CacheService.setData(query, response);
       }
     } catch (e) {
       if (e instanceof HTTPError) {

@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router';
 import { useSearchedDataDispatch } from 'hooks/useSearch';
 import { useApi } from 'hooks/useApi';
 import { useSearchParams } from 'react-router-dom';
+import CacheService from 'service/CacheService';
 import S from './styles';
 
 const DELAY_TIME = 100;
@@ -14,6 +15,9 @@ type SearchFormProps = {
 const SearchForm = ({ setIsSearching }: SearchFormProps) => {
   const [params] = useSearchParams();
   const query = params.get('q') || '';
+  const cachedItem = CacheService.getData(query);
+  const NO_SESSION_ITEM = cachedItem.length !== 0;
+
   const dispatch = useSearchedDataDispatch();
   const navigate = useNavigate();
   const getResponse = useApi();
@@ -37,11 +41,9 @@ const SearchForm = ({ setIsSearching }: SearchFormProps) => {
   };
 
   useEffect(() => {
-    const cachedItem = sessionStorage.getItem(query);
     if (query) {
-      if (cachedItem) {
-        const data = JSON.parse(cachedItem);
-        dispatch({ type: 'SET_DATA', data });
+      if (NO_SESSION_ITEM) {
+        dispatch({ type: 'SET_DATA', data: cachedItem });
       } else {
         const debounce = setTimeout(() => {
           getResponse();
