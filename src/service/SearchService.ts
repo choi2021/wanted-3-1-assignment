@@ -8,7 +8,7 @@ export default class SearchServiceImpl implements SearchService {
   async getSearch(keyword: string) {
     try {
       const { data } = await this.httpClient.get<SearchResponse>(
-        `?q=${keyword}`
+        `?sickNm_like=${keyword}`
       );
       console.info('calling api');
       return await data;
