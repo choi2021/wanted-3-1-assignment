@@ -20,7 +20,8 @@ const SearchForm = ({ setIsSearching }: SearchFormProps) => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.currentTarget;
-    navigate(`/search?q=${value}`);
+    const keyword = value.replace(/ /g, '+');
+    navigate(`/search?q=${keyword}`);
   };
 
   const handleFocus = () => {

@@ -28,7 +28,6 @@ const SearchItem = ({
   const query = params.get('q') || '';
   const textArray = splitByKeyword(query, text);
   const handleMouseMove = () => {
-    setCursor(index);
     setIsMovingMouse(true);
     const debounce = setTimeout(() => {
       setCursor(index);
