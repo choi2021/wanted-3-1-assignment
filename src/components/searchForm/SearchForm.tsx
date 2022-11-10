@@ -7,7 +7,7 @@ import CacheService from 'service/CacheService';
 import { useQueryString } from 'hooks/useQueryString';
 import S from './styles';
 
-const DELAY_TIME = 100;
+const DELAY_TIME = 200;
 
 type SearchFormProps = {
   setIsSearching: React.Dispatch<React.SetStateAction<boolean>>;
