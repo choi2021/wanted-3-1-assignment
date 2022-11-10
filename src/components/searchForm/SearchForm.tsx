@@ -23,7 +23,6 @@ const SearchForm = ({ setIsSearching }: SearchFormProps) => {
     navigate(`/search?q=${value}`);
   };
 
-  // 함수 합치기
   const handleFocus = () => {
     setIsSearching(true);
   };
@@ -37,7 +36,7 @@ const SearchForm = ({ setIsSearching }: SearchFormProps) => {
   };
 
   useEffect(() => {
-    const cachedItem = localStorage.getItem(query);
+    const cachedItem = sessionStorage.getItem(query);
     if (query) {
       if (cachedItem) {
         const data = JSON.parse(cachedItem);

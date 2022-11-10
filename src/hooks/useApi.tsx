@@ -14,7 +14,7 @@ const useApi = () => {
       const response = await searchService?.getSearch(query);
       if (response) {
         dispatch({ type: 'SET_DATA', data: response });
-        localStorage.setItem(query, JSON.stringify(response));
+        sessionStorage.setItem(query, JSON.stringify(response));
       }
     } catch (e) {
       if (e instanceof HTTPError) {
