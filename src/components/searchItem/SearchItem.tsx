@@ -8,28 +8,38 @@ interface SearchItemProps {
   text: string;
   active: boolean;
   index: number;
+  isMovingMouse: boolean;
+  setIsMovingMouse: React.Dispatch<React.SetStateAction<boolean>>;
   setCursor: React.Dispatch<React.SetStateAction<number>>;
 }
 const DELAY_TIME = 200;
 const KEYWORD_INDEX = 1;
 
-const SearchItem = ({ text, active, index, setCursor }: SearchItemProps) => {
+const SearchItem = ({
+  text,
+  active,
+  index,
+  isMovingMouse,
+  setIsMovingMouse,
+  setCursor,
+}: SearchItemProps) => {
   const itemRef = useRef<HTMLLIElement>(null);
   const [params] = useSearchParams();
   const query = params.get('q') || '';
   const textArray = splitByKeyword(query, text);
   const handleMouseMove = () => {
+    setCursor(index);
+    setIsMovingMouse(true);
     const debounce = setTimeout(() => {
       setCursor(index);
     }, DELAY_TIME);
     return () => clearTimeout(debounce);
   };
   useEffect(() => {
-    if (active) {
+    if (active && !isMovingMouse) {
       itemRef.current?.scrollIntoView({
         behavior: 'smooth',
         block: 'center',
-        inline: 'nearest',
       });
     }
   });

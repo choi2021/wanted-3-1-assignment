@@ -1,16 +1,14 @@
 import axios, { AxiosInstance } from 'axios';
 
 export default class HttpClient {
-  private baseUrl;
+  httpClient: AxiosInstance;
 
-  constructor(baseUrl: string) {
-    this.baseUrl = baseUrl;
-  }
-
-  create(): AxiosInstance {
-    return axios.create({
+  constructor(private baseUrl: string) {
+    this.httpClient = axios.create({
       baseURL: this.baseUrl,
-      timeout: 1000 * 10,
+      headers: {
+        'Cache-Control': 'no-cache',
+      },
     });
   }
 }

@@ -2,8 +2,8 @@ import React, { createContext } from 'react';
 import SearchServiceImpl from '../service/SearchService';
 import HttpClient from '../network/httpClient';
 
-const httpClient = new HttpClient(process.env.REACT_APP_BASE_URL || '');
-const searchService = new SearchServiceImpl(httpClient.create());
+const client = new HttpClient(process.env.REACT_APP_BASE_URL || '');
+const searchService = new SearchServiceImpl(client.httpClient);
 
 export const SearchServiceContext = createContext<SearchServiceImpl | null>(
   null

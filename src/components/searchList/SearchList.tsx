@@ -11,6 +11,7 @@ interface SearchListProps {
 
 const SearchList = ({ title }: SearchListProps) => {
   const [cursor, setCursor] = useState(-1);
+  const [isMovingMouse, setIsMovingMouse] = useState(false);
   const downPress = useKeyPress('ArrowDown');
   const upPress = useKeyPress('ArrowUp');
   const enterPress = useKeyPress('Enter');
@@ -21,6 +22,7 @@ const SearchList = ({ title }: SearchListProps) => {
   const navigate = useNavigate();
   useEffect(() => {
     if (list.length && downPress) {
+      setIsMovingMouse(false);
       setCursor((prevState) =>
         prevState < list.length - 1 ? prevState + 1 : prevState
       );
@@ -28,12 +30,14 @@ const SearchList = ({ title }: SearchListProps) => {
   }, [downPress]);
   useEffect(() => {
     if (list.length && upPress) {
+      setIsMovingMouse(false);
       setCursor((prevState) => (prevState > 0 ? prevState - 1 : prevState));
     }
   }, [upPress]);
 
   useEffect(() => {
     if (list.length && enterPress) {
+      setIsMovingMouse(false);
       const target = list[cursor];
       navigate(`/search?q=${target.sickNm}`);
     }
@@ -50,6 +54,8 @@ const SearchList = ({ title }: SearchListProps) => {
               key={item.sickCd}
               text={item.sickNm}
               active={cursor === idx}
+              isMovingMouse={isMovingMouse}
+              setIsMovingMouse={setIsMovingMouse}
               setCursor={setCursor}
               index={idx}
             />
