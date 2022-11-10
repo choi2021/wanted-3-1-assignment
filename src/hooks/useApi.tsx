@@ -1,14 +1,13 @@
 import { useSearchedDataDispatch } from 'hooks/useSearch';
 import HTTPError from 'network/httpError';
-import { useSearchParams } from 'react-router-dom';
 import CacheService from 'service/CacheService';
+import { useQueryString } from './useQueryString';
 import { useSearchService } from './useSearch';
 
 const useApi = () => {
   const dispatch = useSearchedDataDispatch();
   const searchService = useSearchService();
-  const [params] = useSearchParams();
-  const query = params.get('q') || '';
+  const query = useQueryString();
   async function getResponse() {
     dispatch({ type: 'SET_LOADING', isLoading: true });
     try {

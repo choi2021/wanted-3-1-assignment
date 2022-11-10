@@ -1,7 +1,8 @@
 import SearchItem from 'components/searchItem/SearchItem';
-import { useSearchParams, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useKeyPress } from 'hooks/useKeyPress';
 import { useState, useEffect } from 'react';
+import { useQueryString } from 'hooks/useQueryString';
 import S from './styles';
 import { useSearchedDataState } from '../../hooks/useSearch';
 
@@ -16,8 +17,7 @@ const SearchList = ({ title }: SearchListProps) => {
   const upPress = useKeyPress('ArrowUp');
   const enterPress = useKeyPress('Enter');
   const list = useSearchedDataState().data;
-  const [params] = useSearchParams();
-  const query = params.get('q') || '';
+  const query = useQueryString();
   const noText = !query;
   const navigate = useNavigate();
   useEffect(() => {
@@ -39,7 +39,8 @@ const SearchList = ({ title }: SearchListProps) => {
     if (list.length && enterPress) {
       setIsMovingMouse(false);
       const target = list[cursor];
-      navigate(`/search?q=${target.sickNm}`);
+      const keyword = target.sickNm.replace(/ /g, '+');
+      navigate(`/search?q=${keyword}`);
     }
   }, [cursor, enterPress]);
 

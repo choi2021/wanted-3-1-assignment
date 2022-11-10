@@ -1,7 +1,8 @@
 import { BsSearch } from 'react-icons/bs';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useRef, useEffect } from 'react';
 import { splitByKeyword } from 'utils/splitByKeyword';
+import { useQueryString } from 'hooks/useQueryString';
 import S from './styles';
 
 interface SearchItemProps {
@@ -24,8 +25,7 @@ const SearchItem = ({
   setCursor,
 }: SearchItemProps) => {
   const itemRef = useRef<HTMLLIElement>(null);
-  const [params] = useSearchParams();
-  const query = params.get('q') || '';
+  const query = useQueryString();
   const textArray = splitByKeyword(query, text);
   const handleMouseMove = () => {
     setIsMovingMouse(true);

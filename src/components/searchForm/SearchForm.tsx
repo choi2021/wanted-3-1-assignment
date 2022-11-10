@@ -3,8 +3,8 @@ import { BsSearch } from 'react-icons/bs';
 import { useNavigate } from 'react-router';
 import { useSearchedDataDispatch } from 'hooks/useSearch';
 import { useApi } from 'hooks/useApi';
-import { useSearchParams } from 'react-router-dom';
 import CacheService from 'service/CacheService';
+import { useQueryString } from 'hooks/useQueryString';
 import S from './styles';
 
 const DELAY_TIME = 100;
@@ -13,8 +13,7 @@ type SearchFormProps = {
   setIsSearching: React.Dispatch<React.SetStateAction<boolean>>;
 };
 const SearchForm = ({ setIsSearching }: SearchFormProps) => {
-  const [params] = useSearchParams();
-  const query = params.get('q') || '';
+  const query = useQueryString();
   const cachedItem = CacheService.getData(query);
   const NO_SESSION_ITEM = cachedItem.length !== 0;
 
