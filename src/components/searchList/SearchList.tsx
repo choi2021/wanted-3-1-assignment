@@ -2,7 +2,6 @@ import SearchItem from 'components/searchItem/SearchItem';
 import { useNavigate } from 'react-router-dom';
 import { useKeyPress } from 'hooks/useKeyPress';
 import { useState, useEffect } from 'react';
-import { useQueryString } from 'hooks/useQueryString';
 import S from './styles';
 import { useSearchedDataState } from '../../hooks/useSearch';
 
@@ -17,8 +16,7 @@ const SearchList = ({ title }: SearchListProps) => {
   const upPress = useKeyPress('ArrowUp');
   const enterPress = useKeyPress('Enter');
   const list = useSearchedDataState().data;
-  const query = useQueryString();
-  const noText = !query;
+  const IS_EMPTRY = list.length === 0;
   const navigate = useNavigate();
   useEffect(() => {
     if (list.length && downPress) {
@@ -46,8 +44,9 @@ const SearchList = ({ title }: SearchListProps) => {
 
   return (
     <S.List>
-      {noText && <h3>검색어 없음</h3>}
-      {!noText && (
+      {IS_EMPTRY ? (
+        <h3>검색어 없음</h3>
+      ) : (
         <>
           <h3>{title}</h3>
           {list.map((item, idx) => (

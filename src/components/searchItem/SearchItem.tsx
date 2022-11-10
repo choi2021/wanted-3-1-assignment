@@ -24,6 +24,7 @@ const SearchItem = ({
   setIsMovingMouse,
   setCursor,
 }: SearchItemProps) => {
+  console.log(text);
   const itemRef = useRef<HTMLLIElement>(null);
   const query = useQueryString();
   const textArray = splitByKeyword(query, text);
